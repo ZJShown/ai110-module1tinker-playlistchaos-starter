@@ -8,6 +8,78 @@ You do not need to understand everything at once. Approach the app as a curious 
 
 ---
 
+## Issues Found
+
+### Issue 1: `hype_ratio` always returns 1.0
+
+**Original code (`playlist_logic.py`, line 119):**
+```python
+total = len(hype)
+hype_ratio = len(hype) / total if total > 0 else 0.0
+```
+
+**Problem:** `total` is set to `len(hype)`, so `len(hype) / total` is dividing a number by itself — always producing `1.0` whenever the Hype playlist is non-empty. This makes the stat meaningless.
+
+**Fix:** Use `len(all_songs)` as the denominator so the ratio reflects what fraction of all songs are in the Hype playlist:
+```python
+total = len(all_songs)
+hype_ratio = len(hype) / total if total > 0 else 0.0
+```
+
+---
+
+### Issue 2: `avg_energy` uses the wrong list
+
+**Original code (`playlist_logic.py`, line 124):**
+```python
+total_energy = sum(song.get("energy", 0) for song in hype)
+avg_energy = total_energy / len(all_songs)
+```
+
+**Problem:** The numerator sums energy only from the `hype` playlist, but the denominator divides by `len(all_songs)`. This mixes two different scopes and produces an incorrect average — neither the average energy of all songs nor the average energy of just the Hype playlist.
+
+**Fix:** Sum energy across `all_songs` to match the denominator:
+```python
+total_energy = sum(song.get("energy", 0) for song in all_songs)
+avg_energy = total_energy / len(all_songs)
+```
+
+---
+
+### Issue 3: `search_songs` condition is backwards
+
+**Original code (`playlist_logic.py`, line 171):**
+```python
+if value and value in q:
+```
+
+**Problem:** This checks if the song's field value is a substring of the query, not the other way around. For example, searching `"tay"` would test `"taylor swift" in "tay"`, which is `False` — so no results are returned. Partial search never works.
+
+**Fix:** Flip the `in` check so the query is matched inside the field value:
+```python
+if value and q in value:
+```
+
+---
+
+### Issue 4: `lucky_pick` never includes the Mixed playlist
+
+**Original code (`playlist_logic.py`, line 186):**
+```python
+else:
+    songs = playlists.get("Hype", []) + playlists.get("Chill", [])
+```
+
+**Problem:** The `"any"` mode (the default) only combines Hype and Chill songs. Songs classified as `"Mixed"` are completely excluded from lucky pick, regardless of the mode chosen.
+
+**Fix:** Include the Mixed playlist in the `else` branch:
+```python
+else:
+    songs = playlists.get("Hype", []) + playlists.get("Chill", []) + playlists.get("Mixed", [])
+```
+
+---
+
 ## How the code is organized
 
 ### `app.py`  
