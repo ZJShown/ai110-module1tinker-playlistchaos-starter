@@ -8,6 +8,14 @@ You do not need to understand everything at once. Approach the app as a curious 
 
 ---
 
+## Summary of Tinker Task
+
+The purpose of this Tinker activity is to help students learn how to utilize AI tools like Claude or GitHub Copilot as well as how to use GitHub command lines. It asks students to first manually test how the product works and think about anything that feels off. The students are asked to use AI tools to help them understand any code that's incomplete or leads to confusion, but it emphasizes that AI answers should be used as hypotheses only and not a final answer. This is important as students utilize the AI tools to help them debug. For students who are not familiar with Python, asking AI will help them locate code that looks weird. Then, students are asked to pick one problem/confusion that they see from experiencing with the website, which they should start by picking a simple issue to fix. It asks the students to look through app.py or playlist_logic.py for the code section that's responsible for the issue. Once a student finds the issue, students are asked to highlight the section and ask AI to fix it. This part might be difficult for some students who are not familiar with Python, as looking through the code is difficult without knowing the internal functions that Python includes. Therefore, students should use AI to help them identify the correct section of the code and ask AI to explain what each line means, as it will help them understand better. 
+
+Personally, the exercise was confusing at the start since the website contains a lot of information and it overwhelmed me. However, the "How the code is organized" section really helped me as it hints at how I can test the website and mentions some areas that might have issues. AI was also very helpful as I highlighted certain sections and asked AI if the function makes sense. If not, I would ask AI to explain line by line and tell me what the issue would be. The best way is to look at the description of the task and experience the website, then find something that doesn't make sense and look for it in the codebase. From there, you can ask AI to help you identify problems and locate where the issue might be.
+
+---
+
 ## Issues Found
 
 ### Issue 1: `hype_ratio` always returns 1.0
